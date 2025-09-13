@@ -1,0 +1,18 @@
+{
+    "name": "User Setup",
+    "id": "002-user-setup",
+    "version": "0.0.1",
+    "description": "Creates a non-root user with sudo privileges.",
+    "options": {
+        "username": {
+            "type": "string",
+            "default": "babaji",
+            "description": "The username for the new user."
+        },
+        "password": {
+            "type": "string",
+            "default": "babaji",
+            "description": "The password for the new user."
+        }
+    }
+}
