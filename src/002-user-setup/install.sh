@@ -24,6 +24,7 @@ fi
 
 # Add user to the sudo group and ensure they can use it without a password
 usermod -aG sudo "$USERNAME"
+mkdir -p /etc/sudoers.d
 echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/$USERNAME"
 chmod 0440 "/etc/sudoers.d/$USERNAME"
 
