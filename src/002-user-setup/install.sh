@@ -28,4 +28,8 @@ mkdir -p /etc/sudoers.d
 echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/$USERNAME"
 chmod 0440 "/etc/sudoers.d/$USERNAME"
 
+# Set password to match username for easy SSH access
+echo "$USERNAME:$USERNAME" | chpasswd
+echo "Password set to '$USERNAME' for user $USERNAME"
+
 echo "User $USERNAME setup complete."
