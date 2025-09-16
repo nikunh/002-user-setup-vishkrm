@@ -22,6 +22,11 @@ else
   echo "User $USERNAME created."
 fi
 
+# Ensure user has zsh as default shell (force change even if user already existed)
+echo "Setting default shell to zsh for user $USERNAME..."
+chsh -s /usr/bin/zsh "$USERNAME" || chsh -s /bin/zsh "$USERNAME"
+echo "Default shell set to zsh for user $USERNAME"
+
 # Add user to the sudo group and ensure they can use it without a password
 usermod -aG sudo "$USERNAME"
 mkdir -p /etc/sudoers.d

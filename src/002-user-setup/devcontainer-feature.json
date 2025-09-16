@@ -1,8 +1,8 @@
 {
     "name": "User Setup",
     "id": "002-user-setup",
-    "version": "0.0.4",
-    "description": "Creates a non-root user with sudo privileges.",
+    "version": "0.0.5",
+    "description": "Creates a non-root user with sudo privileges and forces zsh as default shell.",
     "options": {
         "username": {
             "type": "string",
