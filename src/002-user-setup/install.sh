@@ -24,8 +24,25 @@ fi
 
 # Ensure user has zsh as default shell (force change even if user already existed)
 echo "Setting default shell to zsh for user $USERNAME..."
-chsh -s /usr/bin/zsh "$USERNAME" || chsh -s /bin/zsh "$USERNAME"
-echo "Default shell set to zsh for user $USERNAME"
+# First make sure zsh is installed
+if ! command -v zsh >/dev/null 2>&1; then
+    echo "Zsh not found, installing..."
+    apt-get update && apt-get install -y zsh
+fi
+
+# Try multiple zsh paths and force change
+echo "Current shell for $USERNAME: $(getent passwd $USERNAME | cut -d: -f7)"
+if chsh -s /usr/bin/zsh "$USERNAME" 2>/dev/null; then
+    echo "Set shell to /usr/bin/zsh"
+elif chsh -s /bin/zsh "$USERNAME" 2>/dev/null; then
+    echo "Set shell to /bin/zsh"
+else
+    # Force change by editing /etc/passwd directly
+    echo "chsh failed, editing /etc/passwd directly..."
+    sed -i "s|^$USERNAME:\([^:]*:\)\{5\}[^:]*:|$USERNAME:\1/usr/bin/zsh:|" /etc/passwd
+    echo "Forced shell change in /etc/passwd"
+fi
+echo "Final shell for $USERNAME: $(getent passwd $USERNAME | cut -d: -f7)"
 
 # Add user to the sudo group and ensure they can use it without a password
 usermod -aG sudo "$USERNAME"
