@@ -3,6 +3,7 @@
     "id": "002-user-setup",
     "version": "0.0.2",
     "description": "Creates a non-root user with sudo privileges and forces zsh as default shell.",
+    "installsAfter": ["ghcr.io/devcontainers/features/common-utils"],
     "options": {
         "username": {
             "type": "string",

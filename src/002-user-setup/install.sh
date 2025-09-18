@@ -44,6 +44,17 @@ else
 fi
 echo "Final shell for $USERNAME: $(getent passwd $USERNAME | cut -d: -f7)"
 
+# Create a post-install hook to ensure shell stays zsh even if other features try to change it
+mkdir -p /etc/profile.d
+cat > /etc/profile.d/force-zsh-shell.sh << 'EOF'
+#!/bin/bash
+# Force zsh shell for babaji user - runs after all features
+if [ "$USER" = "babaji" ] && [ "$SHELL" != "/usr/bin/zsh" ]; then
+    export SHELL="/usr/bin/zsh"
+fi
+EOF
+chmod +x /etc/profile.d/force-zsh-shell.sh
+
 # Add user to the sudo group and ensure they can use it without a password
 usermod -aG sudo "$USERNAME"
 mkdir -p /etc/sudoers.d
