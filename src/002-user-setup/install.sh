@@ -6,6 +6,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 USERNAME=${USERNAME:-"babaji"}
 PASSWORD=${PASSWORD:-"babaji"}
+USER_UID=${USER_UID:-"1000"}
+USER_GID=${USER_GID:-"1000"}
 
 echo "Setting up user ${USERNAME}..."
 
@@ -13,8 +15,12 @@ echo "Setting up user ${USERNAME}..."
 if id "$USERNAME" >/dev/null 2>&1; then
   echo "User $USERNAME already exists, skipping creation."
 else
-  # Create the user with home directory and zsh shell
-  useradd -m -s /bin/zsh "$USERNAME"
+  # Create the user with home directory, zsh shell, and specific UID/GID
+  useradd -m -s /bin/zsh -u "$USER_UID" -g "$USER_GID" "$USERNAME" || {
+    # If group doesn't exist, create it first
+    groupadd -g "$USER_GID" "$USERNAME" 2>/dev/null || true
+    useradd -m -s /bin/zsh -u "$USER_UID" -g "$USER_GID" "$USERNAME"
+  }
 
   # Set the password for the new user
   echo "$USERNAME:$PASSWORD" | chpasswd
