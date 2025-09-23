@@ -72,4 +72,4 @@ echo "$USERNAME:$USERNAME" | chpasswd
 echo "Password set to '$USERNAME' for user $USERNAME"
 
 echo "User $USERNAME setup complete."
-# Test JSON stdin approach for repository dispatch
+# Test complete JSON payload with event_type
