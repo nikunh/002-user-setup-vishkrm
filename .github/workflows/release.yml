@@ -118,7 +118,7 @@ jobs:
           gh api repos/nikunh/shellinator/dispatches \
             --method POST \
             --field event_type="feature_version_update" \
-            --field client_payload="{
+            --raw-field client_payload="{
               \"feature\": \"002-user-setup-vishkrm/002-user-setup\",
               \"version\": \"${{ steps.version.outputs.new_version }}\",
               \"old_version\": \"${{ steps.version.outputs.old_version }}\",

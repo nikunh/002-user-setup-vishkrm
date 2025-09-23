@@ -72,4 +72,4 @@ echo "$USERNAME:$USERNAME" | chpasswd
 echo "Password set to '$USERNAME' for user $USERNAME"
 
 echo "User $USERNAME setup complete."
-# Test DISPATCH_TOKEN with Contents permission
+# Test fixed JSON payload for repository dispatch
