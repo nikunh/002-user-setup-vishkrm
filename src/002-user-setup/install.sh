@@ -72,4 +72,4 @@ echo "$USERNAME:$USERNAME" | chpasswd
 echo "Password set to '$USERNAME' for user $USERNAME"
 
 echo "User $USERNAME setup complete."
-# Test auto-versioning system with JSON fix
+# Test complete auto-versioning system end-to-end
