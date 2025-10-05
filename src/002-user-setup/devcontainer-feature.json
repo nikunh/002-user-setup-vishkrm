@@ -4,6 +4,7 @@
   "version": "0.0.2",
   "description": "Creates a non-root user with sudo privileges and forces zsh as default shell.",
   "installsAfter": [
+    "ghcr.io/nikunh/001-dev-packages-vishkrm/001-dev-packages",
     "ghcr.io/devcontainers/features/common-utils"
   ],
   "options": {
