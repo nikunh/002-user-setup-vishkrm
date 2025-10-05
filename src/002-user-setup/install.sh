@@ -1,4 +1,5 @@
-#!/usr/bin/env zsh
+#!/bin/sh
+# NOTE: Uses sh - runs after 001 installs zsh, but zsh may not be in PATH yet
 set -e
 
 # Logging mechanism for debugging
