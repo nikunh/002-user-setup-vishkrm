@@ -1,7 +1,7 @@
 {
   "name": "User Setup",
   "id": "002-user-setup",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Creates a non-root user with sudo privileges and forces zsh as default shell.",
   "installsAfter": [
     "ghcr.io/nikunh/001-dev-packages-vishkrm/001-dev-packages",
