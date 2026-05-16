@@ -17,10 +17,10 @@ log_debug "Environment: USER=$USER HOME=$HOME"
 # Set DEBIAN_FRONTEND to noninteractive to prevent prompts
 export DEBIAN_FRONTEND=noninteractive
 
-USERNAME=${USERNAME:-"babaji"}
-PASSWORD=${PASSWORD:-"babaji"}
-USER_UID=${USER_UID:-"1000"}
-USER_GID=${USER_GID:-"1000"}
+USERNAME=${USERNAME:-"vishkrm"}
+PASSWORD=${PASSWORD:-"vishkrm"}
+USER_UID=${USER_UID:-"1026"}
+USER_GID=${USER_GID:-"100"}
 
 echo "Setting up user ${USERNAME}..."
 
@@ -67,8 +67,8 @@ echo "Final shell for $USERNAME: $(getent passwd $USERNAME | cut -d: -f7)"
 mkdir -p /etc/profile.d
 cat > /etc/profile.d/force-zsh-shell.sh << 'EOF'
 #!/usr/bin/env zsh
-# Force zsh shell for babaji user - runs after all features
-if [ "$USER" = "babaji" ] && [ "$SHELL" != "/usr/bin/zsh" ]; then
+# Force zsh shell for runtime user - runs after all features
+if [ "$USER" = "$USERNAME" ] && [ "$SHELL" != "/usr/bin/zsh" ]; then
     export SHELL="/usr/bin/zsh"
 fi
 EOF

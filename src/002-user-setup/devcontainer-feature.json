@@ -10,12 +10,12 @@
   "options": {
     "username": {
       "type": "string",
-      "default": "babaji",
+      "default": "vishkrm",
       "description": "The username for the new user."
     },
     "password": {
       "type": "string",
-      "default": "babaji",
+      "default": "vishkrm",
       "description": "The password for the new user."
     }
   }

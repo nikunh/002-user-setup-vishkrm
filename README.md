@@ -1,10 +1,10 @@
 # 002-user-setup DevContainer Feature
 
-Sets up the babaji user account with proper home directory, sudo privileges, and environment configuration.
+Sets up the vishkrm user account with proper home directory, sudo privileges, and environment configuration.
 
 ## Features
 
-- Creates babaji user account
+- Creates vishkrm user account
 - Configures home directory permissions
 - Sets up sudo privileges
 - Environment configuration
