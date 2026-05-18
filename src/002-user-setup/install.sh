@@ -80,6 +80,15 @@ mkdir -p /etc/sudoers.d
 echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/$USERNAME"
 chmod 0440 "/etc/sudoers.d/$USERNAME"
 
+# Phase 4: also add to docker group at build time if the group exists
+# (Required for docker socket access without sudo at runtime; socket chgrp
+# happens in setup-workspace-link postCreate since socket isn't mounted at
+# build time.)
+if getent group docker >/dev/null 2>&1; then
+    usermod -aG docker "$USERNAME"
+    echo "Added $USERNAME to docker group"
+fi
+
 # Set password to match username for easy SSH access
 echo "$USERNAME:$USERNAME" | chpasswd
 echo "Password set to '$USERNAME' for user $USERNAME"
@@ -98,6 +107,19 @@ YELLOW='\033[1;33m'
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
+
+# Phase 4: fix docker socket group ownership so user can run docker without sudo.
+# Bind-mounted /var/run/docker.sock often arrives root:root (esp. from
+# Docker Desktop / WSL2). Chgrp to docker group (if present) and chmod g+rw.
+# Runs every container start; idempotent if already correct.
+if [[ -S /var/run/docker.sock ]] && getent group docker >/dev/null 2>&1; then
+    sock_group=$(stat -c %G /var/run/docker.sock 2>/dev/null)
+    if [[ "$sock_group" != "docker" ]]; then
+        if sudo chgrp docker /var/run/docker.sock 2>/dev/null && sudo chmod g+rw /var/run/docker.sock 2>/dev/null; then
+            echo -e "${GREEN}✅ /var/run/docker.sock group fixed (was: $sock_group → docker)${NC}"
+        fi
+    fi
+fi
 
 # Standard path we expect
 STANDARD_PATH="/workspaces/shellinator"
