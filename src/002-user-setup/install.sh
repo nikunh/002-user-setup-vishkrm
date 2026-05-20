@@ -94,6 +94,23 @@ fi
 echo "$USERNAME:$USERNAME" | chpasswd
 echo "Password set to '$USERNAME' for user $USERNAME"
 
+# Own the sshd AllowUsers rule: this feature creates the user, so it is the
+# authoritative source for which user sshd permits. 001-dev-packages and the
+# off-the-shelf sshd feature both write AllowUsers (often resolving to root at
+# build time). Because 002 installsAfter both, this write is the LAST one and
+# wins. Tracks $USERNAME so it works for any configured user, not just vishkrm.
+mkdir -p /etc/ssh/sshd_config.d
+if [ -f /etc/ssh/sshd_config.d/devcontainer.conf ]; then
+    if grep -qE '^AllowUsers ' /etc/ssh/sshd_config.d/devcontainer.conf; then
+        sed -i "s/^AllowUsers .*/AllowUsers $USERNAME/" /etc/ssh/sshd_config.d/devcontainer.conf
+    else
+        printf 'AllowUsers %s\n' "$USERNAME" >> /etc/ssh/sshd_config.d/devcontainer.conf
+    fi
+else
+    printf 'AllowUsers %s\n' "$USERNAME" > /etc/ssh/sshd_config.d/devcontainer.conf
+fi
+echo "sshd AllowUsers set to '$USERNAME'"
+
 echo "User $USERNAME setup complete."
 
 # Create workspace symlink setup script
